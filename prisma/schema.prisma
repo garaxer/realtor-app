@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  name            String
+  phone           String
+  email           String    @unique
+  password        String
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+  user_type       UserType
+  service         Service[]
+  buyer_message   Message[] @relation("buyer_messages")
+  realtor_message Message[] @relation("realtor_messages")
+}
+
+// model Home {
+//   id                  Int          @id @default(autoincrement())
+//   address             String
+//   number_of_bedrooms  Int
+//   number_of_bathrooms Float
+//   city                String
+//   listed_date         DateTime     @default(now())
+//   price               Float
+//   land_size           Float
+//   property_type       ServiceType
+//   created_at          DateTime     @default(now())
+//   updated_at          DateTime     @updatedAt
+// }
+
+// Lets make a hotel booking app or reminder service or a sellable service, pick one.
+// Cna do both. 1 serviec has many bookings and a booking can have many attendees and reminders.
+// Hotel or event or service booking, generic booking app thats what we are going for.
+// For now, make a service, have a service page, can then add reminders and what not.
+model Service {
+  id                  Int         @id @default(autoincrement())
+  title               String // New fields
+  description         String // New fields
+  max_capacity        Int
+  duration            Int
+  address             String
+  number_of_bedrooms  Float
+  number_of_bathrooms Float
+  city                String
+  event_date          DateTime    @default(now()) //Move to bookings
+  price               Float
+  land_size           Float
+  service_type        ServiceType
+  created_at          DateTime    @default(now())
+  updated_at          DateTime    @updatedAt
+  image               Image[]
+  realtor_id          Int
+  realtor             User        @relation(fields: [realtor_id], references: [id])
+  // They have bookings
+  // They have reminders
+  // reminder_frequency  String
+  // reminder_last_sent  DateTime
+  message             Message[]
+}
+
+model Image {
+  id         Int      @id @default(autoincrement())
+  url        String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  service_id Int
+  service    Service  @relation(fields: [service_id], references: [id])
+}
+
+model Message {
+  id         Int     @id @default(autoincrement())
+  message    String
+  service_id Int
+  service    Service @relation(fields: [service_id], references: [id])
+  realtor_id Int
+  realtor    User    @relation("realtor_messages", fields: [realtor_id], references: [id])
+  buyer_id   Int
+  buyer      User    @relation("buyer_messages", fields: [buyer_id], references: [id])
+}
+
+enum ServiceType {
+  INPERSON
+  REMOTE
+}
+
+enum UserType {
+  BUYER
+  REALTOR
+  ADMIN
+}

@@ -85,6 +85,11 @@ nest g service auth user
 nest g module prisma
 nest g service prisma
 
+nest g module home
+nest g controller home
+nest g service home
+
+
 # Running
 1. Run this, makes postgres table by default
 docker run --name dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres:latest

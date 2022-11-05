@@ -9,6 +9,7 @@ import {
   IsDate,
   IsArray,
   ValidateNested,
+  IsOptional,
 } from 'class-validator';
 
 export class HomeResponseDto {
@@ -70,6 +71,8 @@ export class HomeResponseDto {
 }
 
 export class Image {
+  @IsString()
+  @IsNotEmpty()
   url: string;
 }
 
@@ -123,9 +126,73 @@ export class CreateHomeDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => Image)
-  images: Image;
+  images: Image[];
 
-  constructor(partial: Partial<HomeResponseDto>) {
+  constructor(partial: Partial<CreateHomeDto>) {
+    Object.assign(this, partial);
+  }
+}
+
+export class UpdateHomeDto {
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  title?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  description?: string;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  maxCapacity?: number;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  duration?: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  address?: string;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  numberOfBedrooms?: number;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  numberOfBathrooms?: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  city?: string;
+
+  @IsDate()
+  @IsOptional()
+  eventDate?: Date;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsOptional()
+  price?: number;
+
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  landSize?: number;
+
+  @IsEnum(ServiceType)
+  @IsOptional()
+  serviceType?: ServiceType;
+
+  constructor(partial: Partial<UpdateHomeDto>) {
     Object.assign(this, partial);
   }
 }

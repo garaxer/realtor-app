@@ -97,3 +97,8 @@ or
 docker run --name postgresql -e POSTGRES_USER=myusername -e POSTGRES_PASSWORD=mypassword -p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres
 2. npm run start:dev
 3. npx prisma studio
+
+
+4. Auth:
+Login. Sign in to get your jwt.
+If you want special permissions, create an auth key using /auth/key then use that when signing up

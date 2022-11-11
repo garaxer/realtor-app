@@ -101,4 +101,4 @@ docker run --name postgresql -e POSTGRES_USER=myusername -e POSTGRES_PASSWORD=my
 
 4. Auth:
 Login. Sign in to get your jwt.
-If you want special permissions, create an auth key using /auth/key then use that when signing up
+If you want special permissions, create an auth key using /auth/key and specify the email of that new user, then use that when signing up for a special permissions account

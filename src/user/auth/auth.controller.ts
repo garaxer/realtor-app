@@ -60,6 +60,6 @@ export class AuthController {
 
   @Get('/me')
   me(@User() user: UserInfo) {
-    return user;
+    return user; 
   }
 }

@@ -196,3 +196,12 @@ export class UpdateHomeDto {
     Object.assign(this, partial);
   }
 }
+
+export class InquireDto {
+  @IsString()
+  @IsNotEmpty()
+  message: string;
+  constructor(partial: Partial<UpdateHomeDto>) {
+    Object.assign(this, partial);
+  }
+}

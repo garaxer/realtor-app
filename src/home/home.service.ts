@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ServiceType } from '@prisma/client';
+import { Service, ServiceType } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserInfo } from 'src/user/decorators/user.decorator';
 import { CreateHomeDto, HomeResponseDto, UpdateHomeDto } from './dtos/home.dto';
@@ -44,7 +44,7 @@ export class HomeService {
       where: filters,
     });
 
-    if (!homes) {
+    if (!homes || !homes.length) {
       throw new NotFoundException();
     }
     return homes.map((home) => {
@@ -74,7 +74,7 @@ export class HomeService {
     }: CreateHomeDto,
     userId: number,
   ) {
-    const home = await this.prismaService.service.create({
+    const home: Service = await this.prismaService.service.create({
       data: {
         title,
         description,
